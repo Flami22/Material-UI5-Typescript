@@ -9,4 +9,4 @@ export const AppRoutes = () => {
          <Route path="/" element={<Button variant='contained' color='primary' onClick={ toggleTheme }>Teste</Button>}/>
          </Routes>
         );
-}
+};
