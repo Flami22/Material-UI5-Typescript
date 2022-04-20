@@ -1,11 +1,38 @@
 import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { useDrawerContext } from '../../context';
-
 
 interface IChildren {
     children?: React.ReactNode;
 }
+
+interface IListItemLinkProps {
+to: string;
+icon: string;
+label: string;
+onClick: (() => void) | undefined;
+}
+
+const ListItemLink: React.FC<IListItemLinkProps> = ({to, icon, label, onClick})=> {
+    const navigate = useNavigate();
+
+    const resolvedPath = useResolvedPath(to);
+    const match = useMatch({ path: resolvedPath.pathname, end: false});
+
+    const handleClick = () => {
+        navigate(to);
+        onClick?.();
+    };
+    return (
+        <ListItemButton selected={!!match} onClick={handleClick}>
+            <ListItemIcon>
+                <Icon>{icon}</Icon>
+            </ListItemIcon>
+            <ListItemText primary={label} />
+        </ListItemButton>
+    );
+};
 
 export const MenuLateral: React.FC<IChildren> = ({ children }) => {
     const theme = useTheme();
@@ -40,12 +67,18 @@ export const MenuLateral: React.FC<IChildren> = ({ children }) => {
                     <Divider />
                     <Box flex={1}>
                         <List component='nav'>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Icon>home</Icon>
-                                </ListItemIcon>
-                                <ListItemText primary='Pagina inicial' />
-                            </ListItemButton>
+                            <ListItemLink 
+                                icon='home'
+                                to='/'
+                                label='Pagina Inicial'
+                                onClick={smDown ? toggleDrawerOpen : undefined}
+                            />  
+                            <ListItemLink 
+                                icon='star'
+                                to='/tech'
+                                label='Tecnologias'
+                                onClick={smDown ? toggleDrawerOpen : undefined}
+                            />  
                         </List>
                     </Box>
                 </Box>
@@ -56,6 +89,5 @@ export const MenuLateral: React.FC<IChildren> = ({ children }) => {
             </Box>
          
         </>
-       
     );
 };
