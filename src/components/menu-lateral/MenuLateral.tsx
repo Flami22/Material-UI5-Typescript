@@ -37,7 +37,7 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({to, icon, label, onClick})=
 export const MenuLateral: React.FC<IChildren> = ({ children }) => {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
-    const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+    const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
     return (
         <>
@@ -67,18 +67,15 @@ export const MenuLateral: React.FC<IChildren> = ({ children }) => {
                     <Divider />
                     <Box flex={1}>
                         <List component='nav'>
-                            <ListItemLink 
-                                icon='home'
-                                to='/'
-                                label='Pagina Inicial'
-                                onClick={smDown ? toggleDrawerOpen : undefined}
-                            />  
-                            <ListItemLink 
-                                icon='star'
-                                to='/tech'
-                                label='Tecnologias'
-                                onClick={smDown ? toggleDrawerOpen : undefined}
-                            />  
+                            {drawerOptions.map(drawerOption => (
+                                <ListItemLink
+                                    to={drawerOption.path}
+                                    key={drawerOption.path}
+                                    icon={drawerOption.icon}
+                                    label={drawerOption.label}
+                                    onClick={smDown ? toggleDrawerOpen : undefined}
+                                />
+                            ))}
                         </List>
                     </Box>
                 </Box>

@@ -4,8 +4,9 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 
 interface IDrawerContextData {
 isDrawerOpen: boolean;
-drawerOption: IDrawerOption[];
+drawerOptions: IDrawerOption[];
 toggleDrawerOpen: () => void;
+setDrawerOptions: (newDrawerOptions: IDrawerOption[]) => void;
 }
 
 interface IChildren {
@@ -32,8 +33,12 @@ export const DrawerProvider: React.FC<IChildren> = ({children}) => {
         setIsDrawerOpen(oldDrawerOpen => !oldDrawerOpen);
     },[]);
 
+    const handleSetDrawerOptions = useCallback((newDrawerOptions: IDrawerOption[]) => {
+        setDrawerOptions(newDrawerOptions);
+    }, []);
+
     return (
-        <DrawerContext.Provider value={{isDrawerOpen, toggleDrawerOpen}}>
+        <DrawerContext.Provider value={{isDrawerOpen, drawerOptions, toggleDrawerOpen, setDrawerOptions: handleSetDrawerOptions}}>
             {children}
         </DrawerContext.Provider>
     );
