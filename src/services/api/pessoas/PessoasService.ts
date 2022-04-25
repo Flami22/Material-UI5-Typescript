@@ -8,6 +8,13 @@ interface IListagemPessoa {
     nomeCompleto: string;
 }
 
+interface IListagemPessoa {
+    id: number;
+    email: string;
+    cidadeId: number;
+    nomeCompleto: string;
+}
+
 const getAll = async (page = 1, filter = ''): Promise<any> => {
 try {
     const urlRelativa = `/pessoas?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nomeCompleto+like=${filter}`;
